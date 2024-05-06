@@ -74,6 +74,39 @@ class DatabaseService{
             throw error
         }
     }
+
+    async createFile(){
+        try {
+            await this.storage.createFile(
+                config.bucketId, // bucketId
+                ID.unique(), // fileId
+            );
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async deleteFile(fileId){
+        try {
+            await this.storage.deleteFile(
+                config.bucketId, // bucketId
+                fileId // fileId
+            );
+        } catch (error) {
+            throw error
+        }
+    }
+
+    getFilePreview(fileId){
+        try {
+            this.storage.getFilePreview(
+                config.bucketId,
+                fileId
+            )
+        } catch (error) {
+            throw error
+        }
+    }
 }
 
 export default new DatabaseService()
