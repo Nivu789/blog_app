@@ -1,36 +1,38 @@
-import { Client, Account ,ID } from "appwrite";
+import { Client, ID, Databases , Storage ,Query} from "appwrite";
 import config from "../config/config";
 
 class DatabaseService{
-    client = new Client();
+    client;
     databases;
     storage;
 
-    constructor(){
+    constructor(){ 
+        this.client = new Client()
         this.client.setEndpoint(config.appwriteUrl).setProject(config.projectId)
         this.databases = new Databases(this.client)
         this.storage = new Storage(this.client)
     }
 
-    async createPost({title,content,featured_image,status}){
+    async createPost({title,content,featured_image,status,userId}){
         try {
             await this.databases.createDocument(config.databaseId,config.collectionId,ID.unique(),{
                 title,
                 content,
                 featured_image,
-                status
+                status,
+                userId
             })
         } catch (error) {
             throw error
         }
     }
 
-    async updatePost({title,content,featured_image,status}){
+    async updatePost(slug,{title,content,featured_image,status}){
         try {
             await this.databases.updateDocument(
                 config.databaseId, // databaseId
                 config.collectionId, // collectionId
-                ID.unique(), // to be checked later
+                slug, // to be checked later
                 {title,content,featured_image,status}
             )
         } catch (error) {
@@ -51,12 +53,12 @@ class DatabaseService{
         }
     }
 
-    async getPost(){
+    async getPost(slug){
         try {
-            await this.databases.getDocument(
+           return await this.databases.getDocument(
                 config.databaseId, // databaseId
                 config.collectionId, // collectionId
-                ID.unique(), // to be checked
+                slug, // to be checked
             );
         } catch (error) {
             throw error
@@ -75,12 +77,25 @@ class DatabaseService{
         }
     }
 
-    async createFile(){
+    async createFile(file){
         try {
             await this.storage.createFile(
                 config.bucketId, // bucketId
-                ID.unique(), // fileId
+                ID.unique(),
+                file // fileId
             );
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async uploadFile(file){
+        try {
+            this.storage.createFile(
+                config.bucketId,
+                ID.unique(),
+                file
+            )
         } catch (error) {
             throw error
         }

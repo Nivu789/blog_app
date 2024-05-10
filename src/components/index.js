@@ -5,6 +5,8 @@ import Button from './Buttons/Button';
 import InputBox from "./InputBox/InputBox";
 import PostCard from "./PostCard/PostCard";
 import Select from "./Select/Select";
+import RTE from './RTE/RTE'
+import PostForm from "./Forms/PostForm";
 
 export {
     LogoutButton,
@@ -13,5 +15,7 @@ export {
     Button,
     InputBox,
     PostCard,
-    Select
+    Select,
+    RTE,
+    PostForm
 }

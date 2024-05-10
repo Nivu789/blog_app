@@ -4,6 +4,8 @@ import {useDispatch} from 'react-redux'
 import authService from './appwrite/auth'
 import { login, logout } from './store/authSlice'
 import { Header,Footer } from './components'
+import { TestForm } from './components/Test/TestForm'
+import AllPost from './pages/AllPost'
 
 function App() {
   const [loading,setLoading] = useState(true)
@@ -25,7 +27,9 @@ function App() {
     <>
     <Header/>
       {loading ? <div>Loading Data...</div>:<div>Welcome user</div>}
-      <Footer/>
+      <AllPost/>
+      {/* <TestForm/> */}
+      {/* <Footer/> */}
     </>  
   )
 }
