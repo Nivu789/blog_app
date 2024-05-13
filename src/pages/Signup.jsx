@@ -13,16 +13,19 @@ function Signup() {
     const {register,handleSubmit} = useForm()
 
     const createAccount = async(data) =>{
+      
         setError("")
         try {
             const account = await authService.createAccount(data)
+            // console.log(account)
             if(account){
-                const currentUser = await authService.getCurrentUser()
-                dispatch(login(currentUser))
-                navigate("/")
+                // const currentUser = await authService.getCurrentUser()
+                // console.log(currentUser)
+                // dispatch(login(currentUser))
+                navigate("/login")
             }
         } catch (error) {
-            setError(error)
+            setError(error.message)
         }
     }
 
@@ -36,27 +39,27 @@ function Signup() {
   <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
     <form className="space-y-6" action="#" method="POST" onSubmit={handleSubmit(createAccount)}>
     <div>
-        <label for="email" classNameName="block text-sm font-medium leading-6 text-gray-900">Email address</label>
+        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Name</label>
         <div className="mt-2">
             <InputBox {...register("name",{required:true})}name="name" type="text" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
         </div>
       </div>
       <div>
-        <label for="email" classNameName="block text-sm font-medium leading-6 text-gray-900">Email address</label>
+        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email address</label>
         <div className="mt-2">
-            <InputBox {...register("email",{required:true})}name="email" type="email" autocomplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+            <InputBox {...register("email",{required:true})}name="email" type="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
         </div>
       </div>
 
       <div>
         <div className="flex items-center justify-between">
-          <label for="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
+          <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
           <div className="text-sm">
             <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
           </div>
         </div>
         <div className="mt-2">
-            <InputBox {...register("password",{required:true})}id="password" name="password" type="password" autocomplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+            <InputBox {...register("password",{required:true})}id="password" name="password" type="password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
         </div>
       </div>
 

@@ -7,6 +7,8 @@ import PostCard from "./PostCard/PostCard";
 import Select from "./Select/Select";
 import RTE from './RTE/RTE'
 import PostForm from "./Forms/PostForm";
+import Protector from "./Protector/Protector";
+import Container from "./Container/Container";
 
 export {
     LogoutButton,
@@ -17,5 +19,7 @@ export {
     PostCard,
     Select,
     RTE,
-    PostForm
+    PostForm,
+    Protector,
+    Container
 }

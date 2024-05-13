@@ -14,9 +14,9 @@ class AuthService{
         try {
             const userAccount = await this.account.create(ID.unique(),email,password,name)
             if(userAccount){
-                return this.loginUser({email,password})
+                return true
             }else{
-                return userAccount
+                return false
             }
         } catch (error) {
             throw error

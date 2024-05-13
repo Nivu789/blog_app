@@ -25,9 +25,9 @@ function App() {
 
   return (
     <>
-    <Header/>
+    {/* <Header/> */}
       {loading ? <div>Loading Data...</div>:<div>Welcome user</div>}
-      <AllPost/>
+      {/* <AllPost/> */}
       {/* <TestForm/> */}
       {/* <Footer/> */}
     </>  

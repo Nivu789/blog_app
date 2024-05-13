@@ -12,8 +12,8 @@ function AllPost() {
     console.log(posts)
   return (
     <>
-    {posts && posts.map((post)=>(
-        <PostCard key={post.$id} post={post}/>
+    {posts && posts.map((post,index)=>(
+        <PostCard key={post.$id} {...post}/>
     ))}
     </>
   )

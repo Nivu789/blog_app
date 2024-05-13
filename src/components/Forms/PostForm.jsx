@@ -14,25 +14,30 @@ const PostForm = ({post}) => {
             content:post?.content || "",
             status:post?.status || 'active'
         }})
-
+        console.log("POSt",post)
     const navigate = useNavigate()
     const userData = useSelector((state)=>state.auth.userData)
     
-    const submit = (data) =>{
+    const submit = async(data) =>{
         if(post){
             const file = data.image[0] ? appWriteService.uploadFile(data.image[0]) : null
+            console.log("file",file)
             if(file){
-                appWriteService.deleteFile(post.featured_image)
+                await appWriteService.deleteFile(post.featured_image)
             }
-            const dbPost = appWriteService.updatePost(post.$id,{...data,featured_image:file?file.$id : undefined})
+            const dbPost = await appWriteService.updatePost(post.$id,{...data,featured_image:file?file.$id : undefined})
             if(dbPost){
                 navigate(`/post/${dbPost.$id}`)
+            }else{
+                console.log("Soem")
             }
         }else{
-            const file = data.image[0] ? appWriteService.createFile(data.image[0]) : undefined
+            console.log("Data",data.image[0])
+            const file = data.image[0] ? await appWriteService.createFile(data.image[0]) : undefined
+            console.log("File",file)
             const userId = userData.$id
-            const dbPost = appWriteService.createPost({
-                featured_image:file,
+            const dbPost = await appWriteService.createPost({
+                featured_image:file.$id,
                 userId:userId,
                 ...data,
             })
@@ -43,7 +48,7 @@ const PostForm = ({post}) => {
     }
 
     const slugTransform = useCallback((value)=>{
-        if(value && typeof value === 'string') return value.trim().toLowerCase().replace(/^[a-zA-Z\d\s]+g/,'-')
+        if(value && typeof value === 'string') return value.trim().toLowerCase().replace(/\s+/g, '-')
         return ''
     },[])
 
@@ -92,7 +97,7 @@ const PostForm = ({post}) => {
                 {post && (
                     <div className="w-full mb-4">
                         <img
-                            src={appWriteService.getFilePreview(post.featuredImage)}
+                            src={appWriteService.getFilePreview(post.featured_image)}
                             alt={post.title}
                             className="rounded-lg"
                         />

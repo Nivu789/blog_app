@@ -2,24 +2,24 @@ import { Client, ID, Databases , Storage ,Query} from "appwrite";
 import config from "../config/config";
 
 class DatabaseService{
-    client;
+    client = new Client();
     databases;
     storage;
 
     constructor(){ 
-        this.client = new Client()
         this.client.setEndpoint(config.appwriteUrl).setProject(config.projectId)
         this.databases = new Databases(this.client)
         this.storage = new Storage(this.client)
     }
 
-    async createPost({title,content,featured_image,status,userId}){
+    async createPost({title,content,featured_image,status,userId,slug}){
         try {
-            await this.databases.createDocument(config.databaseId,config.collectionId,ID.unique(),{
+            return await this.databases.createDocument(config.databaseId,config.collectionId,ID.unique(),{
                 title,
                 content,
                 featured_image,
                 status,
+                slug,
                 userId
             })
         } catch (error) {
@@ -29,7 +29,7 @@ class DatabaseService{
 
     async updatePost(slug,{title,content,featured_image,status}){
         try {
-            await this.databases.updateDocument(
+            return await this.databases.updateDocument(
                 config.databaseId, // databaseId
                 config.collectionId, // collectionId
                 slug, // to be checked later
@@ -40,12 +40,12 @@ class DatabaseService{
         }
     }
 
-    async deletePost(){
+    async deletePost(postId){
         try {
-            await this.databases.deleteDocument(
+            return await this.databases.deleteDocument(
                 config.databaseId, // databaseId
                 config.collectionId, // collectionId
-                ID.unique(), // to be checked
+                postId, // to be checked
             );
             return true
         } catch (error) {
@@ -67,10 +67,10 @@ class DatabaseService{
 
     async getAllPosts(){
         try {
-            await this.databases.listDocuments(
+            return await this.databases.listDocuments(
                 config.databaseId, // databaseId
                 config.collectionId, // collectionId
-                [Query.equal("status", true)] // queries 
+                [Query.equal("status", 'active')] // queries 
             );
         } catch (error) {
             throw error
@@ -79,7 +79,7 @@ class DatabaseService{
 
     async createFile(file){
         try {
-            await this.storage.createFile(
+            return await this.storage.createFile(
                 config.bucketId, // bucketId
                 ID.unique(),
                 file // fileId
@@ -103,7 +103,7 @@ class DatabaseService{
 
     async deleteFile(fileId){
         try {
-            await this.storage.deleteFile(
+            return await this.storage.deleteFile(
                 config.bucketId, // bucketId
                 fileId // fileId
             );
@@ -114,7 +114,7 @@ class DatabaseService{
 
     getFilePreview(fileId){
         try {
-            this.storage.getFilePreview(
+            return this.storage.getFilePreview(
                 config.bucketId,
                 fileId
             )

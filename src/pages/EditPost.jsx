@@ -2,7 +2,7 @@ import React from 'react'
 import { useState,useEffect } from 'react'
 import { useNavigate,useParams } from 'react-router-dom'
 import appWriteService from '../appwrite/database_storage'
-import { PostForm } from '../components'
+import { Container, PostForm } from '../components'
 
 function EditPost() {
     const [post,setPost] = useState(null)
@@ -23,7 +23,9 @@ function EditPost() {
     },[slug,navigate])
 
   return post ? (
+    <Container>
     <PostForm post={post}/>
+    </Container>
   ) : null
 }
 
