@@ -17,7 +17,7 @@ const PostForm = ({post}) => {
         console.log("POSt",post)
     const navigate = useNavigate()
     const userData = useSelector((state)=>state.auth.userData)
-    
+    console.log(userData.name)
     const submit = async(data) =>{
         if(post){
             const file = data.image[0] ? appWriteService.uploadFile(data.image[0]) : null
@@ -36,9 +36,11 @@ const PostForm = ({post}) => {
             const file = data.image[0] ? await appWriteService.createFile(data.image[0]) : undefined
             console.log("File",file)
             const userId = userData.$id
+            const userName = userData.name
             const dbPost = await appWriteService.createPost({
                 featured_image:file.$id,
                 userId:userId,
+                userName:userName,
                 ...data,
             })
             if(dbPost){

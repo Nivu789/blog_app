@@ -12,7 +12,7 @@ class DatabaseService{
         this.storage = new Storage(this.client)
     }
 
-    async createPost({title,content,featured_image,status,userId,slug}){
+    async createPost({title,content,featured_image,status,userId,slug,userName}){
         try {
             return await this.databases.createDocument(config.databaseId,config.collectionId,ID.unique(),{
                 title,
@@ -20,7 +20,8 @@ class DatabaseService{
                 featured_image,
                 status,
                 slug,
-                userId
+                userId,
+                userName
             })
         } catch (error) {
             throw error
