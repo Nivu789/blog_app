@@ -14,7 +14,7 @@ const InputBox = forwardRef(function InputBox({
     const id = useId()
     return (
         <div className='w-full'>
-            {label && <label htmlFor={id} className='block text-sm font-medium leading-6 text-gray-900'>{label}</label>}
+            {label && <label htmlFor={id} className='block text-sm font-medium leading-6'>{label}</label>}
             <input type={type} className={`${classname}`} {...props} ref={ref} id={id}></input>
         </div>
     )

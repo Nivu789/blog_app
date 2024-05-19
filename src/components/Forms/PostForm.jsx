@@ -1,12 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {useForm} from 'react-hook-form'
 import { useCallback } from 'react'
 import appWriteService from '../../appwrite/database_storage'
 import {useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import {InputBox,Select,Button,RTE} from '../index'
+import Loading from '../Loading/Loading'
 
 const PostForm = ({post}) => {
+    const [loading,setLoading] = useState(true)
+
+    useEffect(()=>{
+        setTimeout(() => {
+            setLoading(false)
+        }, 2000);
+    },[])
+    
     const {register,handleSubmit,watch,setValue,getValues,control} = useForm({
         defaultValues:{
             title:post?.title || "",
@@ -49,6 +58,7 @@ const PostForm = ({post}) => {
         }
     }
 
+
     const slugTransform = useCallback((value)=>{
         if(value && typeof value === 'string') return value.trim().toLowerCase().replace(/\s+/g, '-')
         return ''
@@ -68,19 +78,21 @@ const PostForm = ({post}) => {
 
     },[watch,setValue,slugTransform])
 
+    if(loading) return <Loading page="read/edit"/>
+
   return (
     <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
             <div className="w-2/3 px-2">
                 <InputBox
                     label="Title :"
                     placeholder="Title"
-                    className="mb-4"
+                    className="mb-4 text-black"
                     {...register("title", { required: true })}
                 />
                 <InputBox
                     label="Slug :"
                     placeholder="Slug"
-                    className="mb-4"
+                    className="mb-4 text-black"
                     {...register("slug", { required: true })}
                     onInput={(e) => {
                         setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });

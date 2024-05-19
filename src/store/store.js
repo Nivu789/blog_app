@@ -7,6 +7,7 @@ import { persistStore, persistReducer ,FLUSH,
     PURGE,
     REGISTER,} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import followSlice from './followerSlice'
 
 const persistConfig = {
     key: 'root',
@@ -14,7 +15,8 @@ const persistConfig = {
   }
 
   const rootReducer = combineReducers({
-    auth:authSlice
+    auth:authSlice,
+    follow:followSlice
   })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -28,13 +28,13 @@ function Home() {
     },[isUserActive])
 
   if(loading){
-    return <Loading/>
+    return <Loading page="home"/>
   }
 
   if(!posts && posts?.length === 0){
     return <div>Nothing has been posted yet... </div>
   }
-
+  
   return (
     <div className='flex w-full flex-wrap p-12 gap-40 bg-black'>{posts && posts.map((post)=>(
         <PostCard key={post.$id} {...post} />
